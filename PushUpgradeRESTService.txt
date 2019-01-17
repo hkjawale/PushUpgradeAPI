@@ -26,7 +26,7 @@ to which the customer wants to upgrade and the desired date/time of the upgrade
         	System.debug('the datetime input is: ' + scheduledStartDate);
             MetadataPackage pkg = [SELECT Id, Name from MetadataPackage WHERE Name =: packageName];
         	
-        	//Get integer values of the version numbers 
+            //Get integer values of the version numbers 
             Integer desiredMajor = Integer.valueOf(desiredversion.charAt(0)) - 48;
             System.debug('Major: '+ desiredMajor);
             Integer desiredMinor = Integer.valueOf(desiredversion.charAt(2)) - 48;
@@ -189,8 +189,8 @@ to which the customer wants to upgrade and the desired date/time of the upgrade
                              */   
                                 System.debug('scheduledStartDate: ' + scheduledStartDate);
                                 System.debug('todays date: ' +  Date.today());
-                                                               Http httppush = new Http();
-                            
+                                                               
+			    Http httppush = new Http(); 
                             HttpRequest requestpush = new HttpRequest();
                             requestpush.setEndpoint(System.URL.getSalesforceBaseURL().toExternalForm() + '/services/data/v40.0/sobjects/packagepushrequest/' + pushReqId + '?_HttpMethod=PATCH');
                             System.debug('end point patch : ' + requestpush.getEndpoint());
