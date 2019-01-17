@@ -1,4 +1,4 @@
-/* Salesforce TrailheaDX - Automate Release Process via Package and Deploy APIs 
+/* Used for the Salesforce TrailheaDX session - Automate Release Process via Package and Deploy APIs 
  * Push Upgrade API 
  * Author - Hemant Jawale 
  * Customers will send request to this custom REST end point to submit a package upgrade request 
@@ -22,7 +22,7 @@ to which the customer wants to upgrade and the desired date/time of the upgrade
         	
         	/* MetadataPackage object stores the information of packages created in the org
         	 * Retrieve the package the push request is requested for 
-			 */
+		 */
         	System.debug('the datetime input is: ' + scheduledStartDate);
             MetadataPackage pkg = [SELECT Id, Name from MetadataPackage WHERE Name =: packageName];
         	
@@ -34,9 +34,9 @@ to which the customer wants to upgrade and the desired date/time of the upgrade
             Integer desiredPatch = Integer.valueOf(desiredversion.charAt(4)) - 48;
             System.debug('Patch: '+ desiredPatch);
 			
-        	/* MetadataPackageVersion object stores the information about all the versions of a packages created in the org
+        	/* MetadataPackageVersion object stores information about all versions of a packages created in the org
         	 * Retrieve the package version the push request is requested for 
-			 */
+		 */
         	MetadataPackageVersion desiredMetadataPkgVer = [SELECT MetadataPackageId, MajorVersion, MinorVersion, PatchVersion from MetadataPackageVersion WHERE ReleaseState = 'Released'
                                                            AND MajorVersion =: desiredMajor AND MinorVersion =: desiredMinor AND PatchVersion =: desiredPatch] ;
 
@@ -49,7 +49,7 @@ to which the customer wants to upgrade and the desired date/time of the upgrade
         	/* PackageSubscriber object stores the information about all the subscriber Orgs 
         	 * that have a version of the package installed   
         	 * Retrieve the package subscriber record corresponding to the customer's OrgId 
-			 */
+	         */
         	PackageSubscriber subscriberOrg = new PackageSubscriber();
             subscriberOrg = [SELECT MetadataPackageVersionId, OrgKey, OrgStatus, OrgName, OrgType FROM PackageSubscriber WHERE OrgKey =: orgId ]; 
             system.debug('The Subscriber Org Name is: ' + subscriberOrg.OrgName); 
@@ -116,7 +116,7 @@ to which the customer wants to upgrade and the desired date/time of the upgrade
                             Time scheduleTime;
                             DateTime ScheduledStartDateTime;
                                        
-                        	/* Send an http request to create a PushRequest 
+                        	/* Send http request to create a PushRequest 
                         	 * The endpoint is /services/data/v40.0/sobjects/packagepushrequest/
                         	 * Send the desired uprade package version id and the schedule start time  
                         	 * If the uprgrade needs to happen immediately, schedule start time should be null
@@ -159,7 +159,7 @@ to which the customer wants to upgrade and the desired date/time of the upgrade
                         
                             System.debug('req id is ' + pushReqId);
                             
-                            /* Send an http request to create a PackagePushJob for uprading a particular subscriber Org 
+                                /* Send http request to create a PackagePushJob for uprading a particular subscriber Org 
                         	 * The endpoint is /services/data/v40.0/sobjects/packagepushjob/
                         	 * Send the prevoulsly created package version id and the subscriber org id 
                         	 */ 
@@ -184,9 +184,9 @@ to which the customer wants to upgrade and the desired date/time of the upgrade
 							
                             /* If ScheduledStartTime was mentioned, the push initiates at that time 
                              * Regardless, to initaite the PushRequest with the pushjob, send a patch call
-                        	 * Update the PushRequest status to "Pending" to initate the push
-                        	 * The endpoint is /services/data/v38.0/sobjects/packagepushrequest/ODV...(The PushRequestID)
-                        	 */   
+                             * Update the PushRequest status to "Pending" to initiate the push
+                             * The endpoint is /services/data/v38.0/sobjects/packagepushrequest/ODV...(The PushRequestID)
+                             */   
                                 System.debug('scheduledStartDate: ' + scheduledStartDate);
                                 System.debug('todays date: ' +  Date.today());
                                                                Http httppush = new Http();
