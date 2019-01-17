@@ -159,7 +159,7 @@ to which the customer wants to upgrade and the desired date/time of the upgrade
                         
                             System.debug('req id is ' + pushReqId);
                             
-                                /* Send http request to create a PackagePushJob for uprading a particular subscriber Org 
+                                /* Send http request to create a PackagePushJob for upgrading a particular subscriber Org 
                         	 * The endpoint is /services/data/v40.0/sobjects/packagepushjob/
                         	 * Send the prevoulsly created package version id and the subscriber org id 
                         	 */ 
